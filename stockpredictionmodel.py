@@ -81,8 +81,15 @@ loss = tf.reduce_sum(tf.square(y - y_predicted))
 # Optimizer aimed at minimizing loss by changing W and b
 optimizer = tf.train.AdamOptimizer(LEARNING_RATE).minimize(loss)
 
+# Session is used to actually run the nodes
+session = tf.Session()
 
+# Need to initialize global variables
+session.run(tf.global_variables_initializer())
+for _ in range(NUM_EPOCHS):
+    # Run the optimizer which will allow it to change the values of W and b to minimize loss
+    session.run(optimizer, feed_dict={x: train_volumes, y_predicted: train_price_differences})
 
-finals, openings, volumes = load_stock_data(current_test_data, NUM_TEST_DATA_POINTS)
-diff = calculate_price_diff(finals, openings)
-print(diff)
+results = session.run(y, feed_dict={x: test_volumes})
+accuracy = calculate_accuracy(test_price_differences, results)
+print("Accuracy of model: {0:.2f}%".format(accuracy))
