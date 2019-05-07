@@ -13,12 +13,30 @@ NUM_TRAIN_DATA_POINTS = 288
 NUM_TEST_DATA_POINTS = 22
 
 
-# Function to load data, convert to correct format and store in arrays
+# Function to load data, return final and opening prices and volume for each day
+# convert data to correct format and store in arrays
 def load_stock_data(stock_name, num_data_points):
     data = pd.read_csv(stock_name, skiprows=0, nrows=num_data_points, usecols=['Price', 'Open', 'Vol.'])
+
+    # Prices of stock at the end of each day
     final_price = data['Price'].astype(str).str.replace(',', '').astype(np.float)
+    # Prices of stock at the beginning of each day
     opening_prices = data['Open'].astype(str).str.replace(',', '').astype(np.float)
+    # Volume of stock exchanged throughout the day
     volumes = data['Vol.'].str.strip('MK').astype(np.float)
     return final_price, opening_prices, volumes
 
-print(load_stock_data(current_test_data, NUM_TEST_DATA_POINTS))
+
+# calculating price differences
+def calculate_price_diff(final_price, opening_prices):
+    price_diff = []
+    for d_i in range(len(final_price) - 1):
+        # difference between next day's opening price and current day's final price
+        price_diff1 = opening_prices[d_i + 1] - final_price[d_i]
+        price_diff.append(price_diff1)
+    return price_diff
+
+
+finals, openings, volumes = load_stock_data(current_test_data, NUM_TEST_DATA_POINTS)
+diff = calculate_price_diff(finals, openings)
+print(diff)
