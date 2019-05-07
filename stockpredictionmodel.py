@@ -37,6 +37,17 @@ def calculate_price_diff(final_price, opening_prices):
     return price_diff
 
 
+# calculating percentage of accuracy
+def calculate_accuracy(expected_values, actual_values):
+    num_correct = 0
+    for a_i in range(len(actual_values)):
+        if actual_values[a_i] < 0 < expected_values [a_i]:
+            num_correct += 1
+        elif actual_values[a_i] > 0 > expected_values [a_i]:
+            num_correct += 1
+    return (num_correct/ len(actual_values)) * 100
+
+
 finals, openings, volumes = load_stock_data(current_test_data, NUM_TEST_DATA_POINTS)
 diff = calculate_price_diff(finals, openings)
 print(diff)
