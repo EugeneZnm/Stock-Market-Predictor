@@ -12,6 +12,9 @@ current_test_data = GOLD_TEST_DATA
 NUM_TRAIN_DATA_POINTS = 288
 NUM_TEST_DATA_POINTS = 22
 
+LEARNING_RATE = 0.1
+NUM_EPOCHS = 100
+
 
 # Function to load data, return final and opening prices and volume for each day
 # convert data to correct format and store in arrays
@@ -74,6 +77,9 @@ y_predicted = tf.placeholder(tf.float32, name='y_predicted')
 
 # Loss function based on the difference between actual and expected outputs
 loss = tf.reduce_sum(tf.square(y - y_predicted))
+
+# Optimizer aimed at minimizing loss by changing W and b
+optimizer = tf.train.AdamOptimizer(LEARNING_RATE).minimize(loss)
 
 
 
