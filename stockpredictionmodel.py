@@ -18,7 +18,7 @@ def load_stock_data(stock_name, num_data_points):
     data = pd.read_csv(stock_name, skiprows=0, nrows=num_data_points, usecols=['Price', 'Open', 'Vol.'])
     final_price = data['Price'].astype(str).str.replace(',', '').astype(np.float)
     opening_prices = data['Open'].astype(str).str.replace(',', '').astype(np.float)
-    volumes = data['Vol.'].str.strip('MK').astpye(np.float)
+    volumes = data['Vol.'].str.strip('MK').astype(np.float)
     return final_price, opening_prices, volumes
 
-
+print(load_stock_data(current_test_data, NUM_TEST_DATA_POINTS))
