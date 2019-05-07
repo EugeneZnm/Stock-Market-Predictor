@@ -48,6 +48,18 @@ def calculate_accuracy(expected_values, actual_values):
     return (num_correct/ len(actual_values)) * 100
 
 
+# Training data sets
+train_final_prices, train_opening_prices, train_volumes = load_stock_data(current_train_data, NUM_TRAIN_DATA_POINTS)
+train_price_differences = calculate_price_diff(train_final_prices, train_opening_prices)
+train_volumes = train_volumes[:-1]
+
+# Testing data sets
+test_final_prices, test_opening_prices, test_volumes = load_stock_data(current_test_data, NUM_TEST_DATA_POINTS)
+test_price_differences = calculate_price_diff(test_final_prices, test_opening_prices)
+test_volumes = test_volumes[:-1]
+
+
+
 finals, openings, volumes = load_stock_data(current_test_data, NUM_TEST_DATA_POINTS)
 diff = calculate_price_diff(finals, openings)
 print(diff)
