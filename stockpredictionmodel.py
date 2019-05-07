@@ -59,6 +59,23 @@ test_price_differences = calculate_price_diff(test_final_prices, test_opening_pr
 test_volumes = test_volumes[:-1]
 
 
+# Used to input volumes
+x = tf.placeholder(tf.float32, name='x')
+
+# Variables that our model will change to get actual output as close to expected output as possible
+W = tf.Variable([.1], name='W')
+b = tf.Variable([.1], name='b')
+
+# How our model outputs the actual values
+y = W * x + b
+
+# Used to input expected values for training purposes (shows the model what a "good" outcome is)
+y_predicted = tf.placeholder(tf.float32, name='y_predicted')
+
+# Loss function based on the difference between actual and expected outputs
+loss = tf.reduce_sum(tf.square(y - y_predicted))
+
+
 
 finals, openings, volumes = load_stock_data(current_test_data, NUM_TEST_DATA_POINTS)
 diff = calculate_price_diff(finals, openings)
