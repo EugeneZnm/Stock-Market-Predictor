@@ -51,10 +51,26 @@ def calculate_accuracy(expected_values, actual_values):
     return (num_correct / len(actual_values)) * 100
 
 
+
+# Training data sets
+train_final_prices, train_opening_prices, train_volumes = load_stock_data()
+
+
 # Building computational Graph
 # y = Wx + b
 x = tf.placeholder(tf.float32, name='x')
 W = tf.Variable([.1], name='W')
 b = tf.Variable([.1], name='b')
 y = W * x + b
+y_predicted = tf.placeholder(tf.float32, name='y_predicted')
 
+# minimise loss
+loss = tf.reduce_sum(tf.square(y - y_predicted))
+
+# optimise loss
+optimiser = tf.train.AdamOptimizer(LEARNING_RATE).minimize(loss)
+
+session = tf.Session()
+session.run(tf.global_variables_initializer())
+for _i in range(NUM_EPOCHS):
+    session.run(optimiser, feed_dict={x: , y_predicted: })
