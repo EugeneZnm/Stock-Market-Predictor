@@ -53,8 +53,16 @@ def calculate_accuracy(expected_values, actual_values):
 
 
 # Training data sets
-train_final_prices, train_opening_prices, train_volumes = load_stock_data()
+train_final_prices, train_opening_prices, train_volumes = load_stock_data(current_train_data, NUM_TRAIN_DATA_POINTS)
+train_price_differences = calculate_price_diff(train_final_prices, train_opening_prices)
 
+# Getting rid of last set of volumes
+train_volumes = train_volumes[:-1]
+
+# Testing Data Sets
+test_final_prices, test_opening_prices, test_volumes = load_stock_data(current_test_data, NUM_TEST_DATA_POINTS)
+test_price_differences = calculate_price_diff((test_final_prices, test_opening_prices))
+test_volumes = test_volumes[:-1]
 
 # Building computational Graph
 # y = Wx + b
@@ -73,4 +81,4 @@ optimiser = tf.train.AdamOptimizer(LEARNING_RATE).minimize(loss)
 session = tf.Session()
 session.run(tf.global_variables_initializer())
 for _i in range(NUM_EPOCHS):
-    session.run(optimiser, feed_dict={x: , y_predicted: })
+    session.run(optimiser, feed_dict={x: train_volumes, y_predicted: train_price_differences})
